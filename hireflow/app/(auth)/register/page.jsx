@@ -4,9 +4,11 @@ import React, { useState, useEffect } from 'react';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Link from 'next/link';
+import { register } from '../../../services/authService';
+import { useRouter } from 'next/navigation';
 
 function Signup() {
-  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -15,12 +17,14 @@ function Signup() {
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
+  const router = useRouter();
+
   useEffect(() => {
     // Trigger animations on mount
     setIsVisible(true);
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       alert('Passwords do not match!');
@@ -30,7 +34,15 @@ function Signup() {
       alert('Please agree to the terms and conditions');
       return;
     }
-    console.log('Signup attempt:', { name, email, password });
+    // Call registration service here
+    const response = await register(username, email, password);
+    if (response.success) {
+      console.log('Registration successful:', response.message);
+      router.push('/Login');
+    } else {
+      console.error('Registration failed:', response.message);
+      // Optionally, show error message to user
+    }
   };
 
   return (
@@ -102,12 +114,12 @@ function Signup() {
               <div className={`space-y-2 transition-all duration-700 delay-300 ${
                 isVisible ? 'translate-x-0 opacity-100' : '-translate-x-5 opacity-0'
               }`}>
-                <label className="text-sm font-medium text-[var(--color-foreground)] block">Full Name</label>
+                <label className="text-sm font-medium text-[var(--color-foreground)] block">UserName</label>
                 <input
                   type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="e.g. Pratik Shinde"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="e.g. Pratik_Shinde"
                   className="w-full px-4 py-3 rounded-xl bg-[var(--color-background)] border border-[var(--color-border)] text-[var(--color-foreground)] placeholder-[var(--color-foreground)]/40 focus:outline-none focus:ring-2 focus:ring-[var(--color-gray)]/50 focus:border-[var(--color-gray)]/50 transition-all"
                 />
               </div>

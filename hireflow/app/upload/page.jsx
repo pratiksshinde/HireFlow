@@ -6,19 +6,31 @@ import CloudDoneIcon from '@mui/icons-material/CloudDone';
 import ShieldIcon from '@mui/icons-material/Shield';
 import { Button } from "@/components/ui/button"
 import {useRouter} from "next/navigation"
+import Spinner from '../../components/ui/spinner';
 
 import Link from "next/link";
+import { uploadResume } from '../../services/authService';
 
 function UploadResume() {
   const [resume, setResume] = useState();
-  const [password, setPassword] = useState('');
-  const [visibility, setVisibility] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [dragActive, setDragActive] = useState(false);
   const route = useRouter();
 
-  const handlesubmit = ()=>{
-    route.push('/Portfolio');
+  const handlesubmit = async()=>{
+    const formData = new FormData();
+    formData.append("resume", resume);
+    setIsLoading(true);
+    const response = await uploadResume(formData);
+    if(response.success){
+      console.log("Resume uploaded successfully");
+      setIsLoading(false);
+      route.push('/Portfolio/'+response.username);
+    } else {
+      setIsLoading(false);
+      console.error("Resume upload failed:", response.message);
+    }
   }
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -142,11 +154,12 @@ function UploadResume() {
                     className={`transition-all duration-300 transform
                                 ${resume ? "opacity-100 scale-100" : "opacity-70 scale-90"}`}
                     >
-                    {resume ? (
+                      {isLoading ? ( <Spinner className="text-[var(--color-foreground)]/70 h-6 w-6"  /> ) : 
+                    resume ? (
                         <CloudDoneIcon className="text-[var(--color-foreground)]/70" style={{ fontSize: "70px" }} />
                     ) : (
                         <BackupIcon className="text-[var(--color-foreground)]/70" style={{ fontSize: "70px" }} />
-                    )}
+                    ) }
                     </div>
 
                     <span className="text-[var(--color-foreground)]/60 mt-2">

@@ -4,21 +4,36 @@ import React, { useEffect, useState } from 'react';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Link from "next/link";
+import { getProfile, login } from '../../../services/authService';
+import { useRouter } from 'next/navigation';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [visibility, setVisibility] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Login attempt:', { email, password });
+    const response = await login(email, password);
+    if (response.success) {
+      // console.log('Login successful:', response);
+      if(response.user.data.isResume){
+        router.push('/Portfolio/'+response.user.data.userName);
+      } else {
+        router.push('/upload');
+      }
+    } else {
+      console.error('Login failed:', response.message);
+      // Optionally, show error message to user
+    }
   };
 
   return (

@@ -1,9 +1,11 @@
+import { redirect } from 'next/navigation'
 import React from 'react'
 
 function page() {
+  redirect('/Login');
   return (
     <div>
-      home page
+      HireFlow App Home Page
     </div>
   )
 }
