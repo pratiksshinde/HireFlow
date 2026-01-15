@@ -31,7 +31,7 @@ function AddCertification({onClose}) {
                 <label className="block text-sm font-bold mb-2" htmlFor="categoryName">
                 Certification Name
                 </label>
-                <input
+                <nput
                 type="text"
                 
                 id="CertificationName"

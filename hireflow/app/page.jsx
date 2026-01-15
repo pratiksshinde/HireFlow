@@ -5,6 +5,7 @@ function page() {
   redirect('/Login');
   return (
     <div>
+      
       HireFlow App Home Page
     </div>
   )

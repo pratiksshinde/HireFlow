@@ -15,6 +15,8 @@ import AddProject from "../../../components/popup/AddProject.jsx";
 import AddEducation from "../../../components/popup/AddEducation.jsx";
 import AddCertification from "../../../components/popup/AddCertification.jsx";
 import AddArchivement from "../../../components/popup/AddArchivement.jsx";
+import EditUser from "../../../components/popup/EditUser.jsx";
+import Navbar from "../../../components/common/navbar.jsx";
 
 
 
@@ -28,6 +30,7 @@ export default function EditProfile() {
   const [addEducation, setAddEducation] = useState(false);
   const [addcertification, setAddCertification] = useState(false);
   const [addArchivement, setAddArchivement] = useState(false);
+  const [openEditUser, setOpenEditUser] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -39,7 +42,7 @@ export default function EditProfile() {
       console.log(PortfolioData);
     };
     fetchData();
-  }, [addSkill , addProject , addArchivement,addEducation,addcertification]);
+  }, [addSkill , addProject , addArchivement,addEducation,addcertification, openEditUser]);
 
   useEffect(() => {
     setTimeout(() => setIsVisible(true), 100);
@@ -220,16 +223,15 @@ const deleteArchivement = async (archivementId) => {
           }}
         />
       </div>
-
+           <Navbar userId="5" className="z-9999"/>
       {/* Content */}
       <div className="relative z-10 max-w-5xl mx-auto px-4 py-12">
-         
         {/* Header Section */}
         <div className={`transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}>
           <div className="backdrop-blur-sm bg-[var(--color-background)]/80 border border-[var(--color-border)] rounded-2xl shadow-2xl p-8 mb-6">
             <div className="flex items-center justify-between mb-4">
             <h1 className="text-4xl font-bold text-[var(--color-foreground)] mb-2">{resume.fullname}</h1>
-            <EditSquareIcon className="ml-2 text-blue-300 hover:text-blue-700 transition-all duration-200 cursor-pointer mt-1"/>    
+            <EditSquareIcon onClick={()=>{setOpenEditUser(true)}} className="ml-2 text-blue-300 hover:text-blue-700 transition-all duration-200 cursor-pointer mt-1"/>    
             </div>
             <div className="flex flex-wrap gap-4 text-[var(--color-foreground)]/70 text-sm mb-4">
               {resume.email && <span>📧 {resume.email}</span>}
@@ -445,6 +447,7 @@ const deleteArchivement = async (archivementId) => {
       {addEducation && <AddEducation onClose={() => setAddEducation(false)} />}
       {addcertification && <AddCertification onClose={() => setAddCertification(false)} />}
       {addArchivement && <AddArchivement onClose={() => setAddArchivement(false)} />}
+      {openEditUser && <EditUser onClose={() => setOpenEditUser(false)} />}
 
     </div>
   );

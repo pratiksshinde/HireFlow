@@ -9,6 +9,7 @@ function AddSkill({onClose}) {
   const [skills,setSkills] = useState([]);
   const [proficiency, setProficiency] = useState([]);
   const [proficiencyInput, setProficiencyInput] = useState("");
+  
 
   const addSkillsToList = () =>{
      if (!category.trim()) {

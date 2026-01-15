@@ -122,3 +122,15 @@ export const addSingleArchivement = async (achivement,description)=>{
     };
     }
 }
+
+export const editProfile = async (fullname,email,phone,address,summary)=>{
+    try {
+        const response = await axiosInstance.put("/resume/editResume/editProfile",{fullname,email,phone,address,summary});
+        return {success:true , message:response.data.message};
+    } catch (error) {
+        return {
+            success: false,
+            message: error.response?.data?.message,
+        }
+    }
+}

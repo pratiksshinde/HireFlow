@@ -11,3 +11,15 @@ export const getPortfolio = async (username) => {
         };
     }
 }
+
+export const getProfileData = async () =>{
+    try {
+        const response = await axiosInstance.get('/resume/getProfileData');
+        return {success: true, profiledata: response.data};
+    } catch (error) {
+        return {
+            success: false,
+            message: error.response?.data?.message || error.message,
+        }
+    }
+}

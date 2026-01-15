@@ -4,15 +4,14 @@ import React, { useEffect, useState } from "react";
 import { redirect, useParams } from "next/navigation";
 import { getPortfolio } from "../../../services/portfolioService";
 import { FormatDate } from "../../../utils/formatdates";
-import EditSquareIcon from '@mui/icons-material/EditSquare';
 import { useRouter } from "next/navigation";
+import Navbar from "../../../components/common/navbar";
 
 export default function Portfolio() {
   const params = useParams();  
   const { username } = params;
   const [Data, setData] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
-  const router = useRouter();
   const [loggedInUserId, setLoggedInUserId] = useState(null);
 
   useEffect(() => {
@@ -82,13 +81,7 @@ export default function Portfolio() {
 
       {/* Content */}
       <div className="relative z-10 max-w-5xl mx-auto px-4 py-12">
-          {loggedInUserId == portfolio.userId ? 
-          <div onClick={() => router.push('/profile/edit')} className="absolute cursor-pointer fixed z-90 right-14 top-5 gap-3 w-fit flex justify-end mb-4 border border-[var(--color-border)] rounded-2xl p-4 bg-[var(--color-background)]/80 backdrop-blur-sm shadow-2xl">
-            
-            <EditSquareIcon 
-              className=" text-[var(--color-foreground)] hover:text-[var(--color-gray)]/80 cursor-pointer transition-colors"
-            />
-          </div> : null }
+         <Navbar userId="5"/>
         {/* Header Section */}
         <div className={`transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}>
           <div className="backdrop-blur-sm bg-[var(--color-background)]/80 border border-[var(--color-border)] rounded-2xl shadow-2xl p-8 mb-6">
