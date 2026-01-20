@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 // import { addSingleEducation, addSkillset } from '../../services/editPortfolioService'
 import CloseIcon from '@mui/icons-material/Close';
 import { addSingleEducation } from '../../services/editPortfolioService';
+import { toast } from 'sonner';
 
 function AddEducation({onClose}) {
   const [institutionName,setInstitutionName] = useState("");
@@ -18,10 +19,10 @@ function AddEducation({onClose}) {
     const response = await addSingleEducation(institutionName,degree,course,score,startDate,endDate,description);
     console.log("response from popup: ",response);
     if (score){
-        alert("Education added");
+        toast.success("Education added");
         onClose();
     }else
-        alert("Failed to add Education");
+        toast.error("Failed to add Education");
   }
 
   return (

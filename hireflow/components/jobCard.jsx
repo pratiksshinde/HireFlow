@@ -67,12 +67,12 @@ export default function JobCard({ job }) {
                 `&body=${encodeURIComponent(formattedBody)}`;
 
             window.location.href = mailtoLink;
-            await createApplication(jobDetails.companyName , jobDetails.title , job.description , to , mailSubject , mailBody , sentResumeId)
             setTimeout(() => { 
             toast("Did you apply for this job?", {
+                duration:Infinity,
             action: {
                 label: "Yes",
-                onClick: () => confirmApplied(job.id),
+                onClick: async () => await createApplication(jobDetails.companyName , jobDetails.title , job.description ),
             },
             cancel: {
                 label: "No",
@@ -123,6 +123,20 @@ export default function JobCard({ job }) {
           target="_blank"
           rel="noopener noreferrer"
           className="inline-block cursor-pointer px-4 py-2 text-sm font-medium text-white bg-black rounded-lg hover:bg-gray-800"
+          onClick={(e) => {
+            setTimeout(() => { 
+            toast("Did you apply for this job?", {
+                duration:Infinity,
+            action: {
+                label: "Yes",
+                onClick: async () => await createApplication( jobDetails.companyName , jobDetails.title , job.description ),
+            },
+            cancel: {
+                label: "No",
+            },
+            });
+        }, 3000);   
+          }}
         >
           Apply Now
         </a>

@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import { addSkillset } from '../../services/editPortfolioService'
 import CloseIcon from '@mui/icons-material/Close';
+import { toast } from 'sonner';
 
 function AddSkill({onClose}) {
   const [category, setCategory] = useState("");
@@ -13,17 +14,17 @@ function AddSkill({onClose}) {
 
   const addSkillsToList = () =>{
      if (!category.trim()) {
-    alert("Category is required");
+    toast.warning("Category is required");
     return;
   }
 
   if (!skillInput.trim()) {
-    alert("Skill name is required");
+    toast.warning("Skill name is required");
     return;
   }
 
   if (!proficiencyInput) {
-    alert("Select proficiency");
+    toast.warning("Select proficiency");
     return;
   }
 
@@ -44,15 +45,16 @@ function AddSkill({onClose}) {
   const addSkill = async ()=>{
     try {
       if(skillInput.length>0){
-        return alert("You forgot to add latest entered Skill name");
+        return toast.warning("You forgot to add latest entered Skill name");
       }
       const response = await addSkillset(skills, category.toLowerCase(), proficiency);
-      alert("Skill added",response);
+      toast.success("Skill added",response);
       onClose();
     } catch (error) {
-      alert("Error :",error);
+      toast.error("Error :",error);
     }
   }
+
   return (
     <div >
         <div className="fixed inset-0 bg-transparent backdrop-blur-sm bg-opacity-50 flex flex-col items-center justify-center z-50">

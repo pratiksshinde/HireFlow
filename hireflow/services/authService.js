@@ -1,3 +1,4 @@
+import axios from "axios";
 import axiosInstance from "../lib/axiosInstance"
 
 export const login = async (email,password)=>{
@@ -13,6 +14,20 @@ export const login = async (email,password)=>{
 
     }
 
+export const logout = async ()=>{
+    try {
+        await axiosInstance.post("/auth/logout");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("username");
+        return { success: true };
+    }
+    catch (error) {
+        return {
+      success: false,
+      message: error.response?.data?.message || error.message,
+    };
+    }
+}
 
 export const register = async (username,email,password)=>{
     try {

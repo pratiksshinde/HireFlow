@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import { addSingleProject, addSkillset } from '../../services/editPortfolioService'
 import CloseIcon from '@mui/icons-material/Close';
+import { toast } from 'sonner';
 
 function AddProject({onClose}) {
   const [name , setName] = useState("");
@@ -12,10 +13,10 @@ function AddProject({onClose}) {
     const response = await addSingleProject(name,description,link);
     console.log("response from popup: ",response);
     if (response.success){
-        alert("project added");
+        toast.success("project added");
         onClose();
     }else
-        alert("Failed to add project");
+        toast.error("Failed to add project");
   }
 
   return (

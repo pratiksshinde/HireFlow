@@ -31,10 +31,10 @@ export const getJobMail = async (jobDetails) => {
   }
 };
 
-export const createApplication = async (companyName , jobRole , jobDescription , sentMailto , mailSubject , mailBody , sentResumeId) =>{
+export const createApplication = async (companyName , jobRole , jobDescription ) =>{
   try {
-    const response = await axiosInstance.post("/",{
-      companyName , jobRole , jobDescription , sentMailto , mailSubject , mailBody , sentResumeId
+    const response = await axiosInstance.post("/jobs/createApplication",{
+      companyName , jobRole , jobDescription 
     })
     return {
       success: true,
@@ -48,3 +48,37 @@ export const createApplication = async (companyName , jobRole , jobDescription ,
     };
   }
 }
+
+export const getAllApplications = async () =>{
+  try {
+    const response = await axiosInstance.get("/jobs/getApplications")
+    console.log("Applications response:", response);
+    return {
+      success: true,
+      response:response.data.applications
+    }
+  } catch (error) {
+    console.error('Error getting job mail:', error);
+    return {
+      success: false,
+      error: error.message
+    };
+  }
+} 
+
+export const deleteApplication = async (applicationId) => {
+  try {
+    const response = await axiosInstance.delete(`/jobs/deleteApplication/${applicationId}`);
+    console.log("Delete application response:", response);  
+    return {
+      success: true,
+      response: response.data
+    };
+  } catch (error) {
+    console.error('Error deleting application:', error);
+    return {
+      success: false,
+      error: error.message
+    };
+  }
+};

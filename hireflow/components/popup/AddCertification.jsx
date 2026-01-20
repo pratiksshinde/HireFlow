@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close';
 import { addSingleCertification } from '../../services/editPortfolioService';
+import { toast } from 'sonner';
 
 function AddCertification({onClose}) {
   const [name , setName] = useState("");
@@ -11,10 +12,11 @@ function AddCertification({onClose}) {
   const addCertification = async ()=>{
     const response = await addSingleCertification(name,organization,date);
     if(response.success){
-        alert("Certificate added");
+        toast.success("Certificate added");
         onClose();
     }
   }
+
 
   return (
     <div >
@@ -31,7 +33,7 @@ function AddCertification({onClose}) {
                 <label className="block text-sm font-bold mb-2" htmlFor="categoryName">
                 Certification Name
                 </label>
-                <nput
+                <input
                 type="text"
                 
                 id="CertificationName"

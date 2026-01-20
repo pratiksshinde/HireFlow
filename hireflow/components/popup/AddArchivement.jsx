@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close';
 import { addSingleArchivement } from '../../services/editPortfolioService';
+import { toast } from 'sonner';
 
 
 function AddArchivement({onClose}) {
@@ -12,7 +13,7 @@ function AddArchivement({onClose}) {
   const addArchivement = async ()=>{
     const response = await addSingleArchivement(name,Description);
     if(response.success){
-        alert("Certificate added");
+        toast.success("Certificate added");
         onClose();
     }
   }

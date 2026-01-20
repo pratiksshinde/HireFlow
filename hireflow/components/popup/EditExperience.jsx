@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close';
 import { addSingleArchivement, editProfile } from '../../services/editPortfolioService';
 import { getProfileData } from '../../services/portfolioService';
+import { toast } from 'sonner';
 
 
 function EditExperience({onClose}) {
@@ -38,13 +39,14 @@ function EditExperience({onClose}) {
     try{
       const response = await editProfile(name,email,phone,address,summary);
       if(response.success){
-        alert("Profile Updated.");
+        toast.success("Profile Updated.");
         onClose();
       }
     }catch(error){
       console.log(error);
     }
   }
+
   return (
     <div >
         <div className="fixed inset-0 bg-transparent backdrop-blur-sm bg-opacity-50 flex flex-col items-center justify-center z-50">

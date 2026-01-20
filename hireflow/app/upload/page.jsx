@@ -10,8 +10,10 @@ import Spinner from '../../components/ui/spinner';
 
 import Link from "next/link";
 import { uploadResume } from '../../services/authService';
+import { toast } from 'sonner';
 
 function UploadResume() {
+
   const [resume, setResume] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -49,7 +51,7 @@ function UploadResume() {
     if (!droppedFile) return;
 
     if (droppedFile.type !== "application/pdf") {
-      alert("Only PDF allowed");
+      toast.error("Only PDF allowed");
       return;
     }
 
@@ -65,7 +67,7 @@ function UploadResume() {
     const selected = e.target.files[0];
 
     if (selected.type !== "application/pdf") {
-      alert("Only PDF allowed");
+      toast.error("Only PDF allowed");
       return;
     }
 
@@ -180,7 +182,7 @@ function UploadResume() {
                         className="w-full h-12 text-base font-medium cursor-pointer rounded-xl"
                         onClick={() => {
                         if (!resume) {
-                            alert("Upload a resume first.")
+                            toast.error("Upload a resume first.")
                             return
                         }
                         handlesubmit()

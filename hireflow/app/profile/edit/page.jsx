@@ -17,10 +17,12 @@ import AddCertification from "../../../components/popup/AddCertification.jsx";
 import AddArchivement from "../../../components/popup/AddArchivement.jsx";
 import EditUser from "../../../components/popup/EditUser.jsx";
 import Navbar from "../../../components/common/navbar.jsx";
+import { toast } from "sonner";
 
 
 
 export default function EditProfile() {
+
   // const params = useParams();  
   // const username = localStorage.getItem("username");
   const [Data, setData] = useState(null);
@@ -145,7 +147,7 @@ export default function EditProfile() {
     const response = await deleteSingleCertification(certificationId);
     console.log("response :",response);
     if (response.success) {
-      alert("deleted certificate");
+      toast.success("deleted certificate");
       setData(prev => ({
         ...prev,
         portfolio: {
@@ -298,7 +300,7 @@ const deleteArchivement = async (archivementId) => {
                       <h3 className="text-xl font-semibold text-[var(--color-foreground)]">{exp.jobTitle}</h3>
                       <p className="text-[var(--color-gray)] font-medium">{exp.company}</p>
                     </div>
-                    <EditSquareIcon className="ml-2 text-blue-300 hover:text-blue-700 transition-all duration-200 cursor-pointer mt-1"/>
+                    {/* <EditSquareIcon className="ml-2 text-blue-300 hover:text-blue-700 transition-all duration-200 cursor-pointer mt-1"/> */}
                     <DeleteOutlineIcon onClick={()=> deleteExperience(exp.id)} className="text-red-300 hover:text-red-700 transition-all duration-200 cursor-pointer mt-1"/>
                     </div>
 
@@ -329,7 +331,7 @@ const deleteArchivement = async (archivementId) => {
                     <div className="flex items-start  gap-1">
                     <h3 className="text-xl font-semibold text-[var(--color-foreground)] mb-2">{project.projectName}</h3>
                       <span className="flex gap-1">
-                      <EditSquareIcon className="ml-2 text-blue-300 hover:text-blue-700 transition-all duration-200 cursor-pointer mt-1"/>
+                      {/* <EditSquareIcon className="ml-2 text-blue-300 hover:text-blue-700 transition-all duration-200 cursor-pointer mt-1"/> */}
                     <DeleteOutlineIcon onClick={()=>{deleteProject(project.id)}} className="text-red-300 hover:text-red-700 transition-all duration-200 cursor-pointer mt-1"/>
                     </span>
                     </div>
@@ -370,7 +372,7 @@ const deleteArchivement = async (archivementId) => {
                     <div className="flex gap-3 items-center">
                       <h3 className="text-xl font-semibold text-[var(--color-foreground)]">{edu.degree}</h3>
                         <span className="flex gap-1">
-                        <EditSquareIcon className="ml-2 text-blue-300 hover:text-blue-700 transition-all duration-200 cursor-pointer mt-1"/>
+                        {/* <EditSquareIcon className="ml-2 text-blue-300 hover:text-blue-700 transition-all duration-200 cursor-pointer mt-1"/> */}
                         <DeleteOutlineIcon onClick={() => deleteEducation(edu.id)} className="text-red-300 hover:text-red-700 transition-all duration-200 cursor-pointer mt-1"/>
                         </span>
                     </div>
@@ -402,7 +404,7 @@ const deleteArchivement = async (archivementId) => {
                 {portfolio.certifications.map((cert) => (
                   <div key={cert.id} className="p-4 rounded-xl bg-[var(--color-background)] border border-[var(--color-border)]">
                    <span className="absolute right-14 gap-1">
-                        <EditSquareIcon className="ml-2 text-blue-300 hover:text-blue-700 transition-all duration-200 cursor-pointer mt-1"/>
+                        {/* <EditSquareIcon className="ml-2 text-blue-300 hover:text-blue-700 transition-all duration-200 cursor-pointer mt-1"/> */}
                         <DeleteOutlineIcon onClick={() => {deleteCertificate(cert.id)}} className="text-red-300 hover:text-red-700 transition-all duration-200 cursor-pointer mt-1"/>
                         </span>
                     <h3 className="text-lg font-semibold text-[var(--color-foreground)]">{cert.certificationName}</h3>
@@ -431,7 +433,7 @@ const deleteArchivement = async (archivementId) => {
                   <div key={achievement.id} className="flex items-start gap-3">
                     <span className="text-[var(--color-gray)] mt-1">🏆</span>
                     <span className="absolute right-14 gap-1">
-                        <EditSquareIcon className="ml-2 text-blue-300 hover:text-blue-700 transition-all duration-200 cursor-pointer mt-1"/>
+                        {/* <EditSquareIcon className="ml-2 text-blue-300 hover:text-blue-700 transition-all duration-200 cursor-pointer mt-1"/> */}
                         <DeleteOutlineIcon onClick={() => {deleteArchivement(achievement.id)}} className="text-red-300 hover:text-red-700 transition-all duration-200 cursor-pointer mt-1"/>
                         </span>
                     <p className="font-bold text-[var(--color-foreground)]/80">{achievement.achivement}</p>

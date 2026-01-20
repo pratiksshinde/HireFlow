@@ -6,6 +6,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Link from 'next/link';
 import { register } from '../../../services/authService';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 function Signup() {
   const [username, setUsername] = useState('');
@@ -27,11 +28,11 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      alert('Passwords do not match!');
+      toast.error('Passwords do not match!');
       return;
     }
     if (!agreeToTerms) {
-      alert('Please agree to the terms and conditions');
+      toast.error('Please agree to the terms and conditions');
       return;
     }
     // Call registration service here
