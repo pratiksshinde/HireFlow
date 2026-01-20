@@ -185,8 +185,8 @@ const deleteArchivement = async (archivementId) => {
 
 
 
-  const portfolio = Data.portfolio;
-  const resume = portfolio.resume;
+  const portfolio = Data?.portfolio;
+  const resume = portfolio?.resume;
 
   return (
     <div className="min-h-screen w-full relative overflow-hidden bg-[var(--color-background)]">
@@ -232,15 +232,15 @@ const deleteArchivement = async (archivementId) => {
         <div className={`transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}>
           <div className="backdrop-blur-sm bg-[var(--color-background)]/80 border border-[var(--color-border)] rounded-2xl shadow-2xl p-8 mb-6">
             <div className="flex items-center justify-between mb-4">
-            <h1 className="text-4xl font-bold text-[var(--color-foreground)] mb-2">{resume.fullname}</h1>
+            <h1 className="text-4xl font-bold text-[var(--color-foreground)] mb-2">{resume?.fullname}</h1>
             <EditSquareIcon onClick={()=>{setOpenEditUser(true)}} className="ml-2 text-blue-300 hover:text-blue-700 transition-all duration-200 cursor-pointer mt-1"/>    
             </div>
             <div className="flex flex-wrap gap-4 text-[var(--color-foreground)]/70 text-sm mb-4">
-              {resume.email && <span>📧 {resume.email}</span>}
-              {resume.phone && <span>📱 {resume.phone}</span>}
-              {resume.address && <span>📍 {resume.address}</span>}
+              {resume?.email && <span>📧 {resume.email}</span>}
+              {resume?.phone && <span>📱 {resume.phone}</span>}
+              {resume?.address && <span>📍 {resume.address}</span>}
             </div>
-            {resume.summary && (
+            {resume?.summary && (
               <p className="text-[var(--color-foreground)]/80 leading-relaxed">{resume.summary}</p>
             )}
           </div>
@@ -248,7 +248,7 @@ const deleteArchivement = async (archivementId) => {
 
 
         {/* Skills Section */}
-        {portfolio.skills && portfolio.skills.length > 0 && (
+        {portfolio?.skills && portfolio?.skills.length > 0 && (
           <div className={`transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}>
             <div className="backdrop-blur-sm bg-[var(--color-background)]/80 border border-[var(--color-border)] rounded-2xl shadow-2xl p-8 mb-6">
               <span className="flex gap-3">
@@ -284,7 +284,7 @@ const deleteArchivement = async (archivementId) => {
         )}
 
         {/* Experience Section */}
-        {portfolio.experiences && portfolio.experiences.length > 0 && (
+        {portfolio?.experiences && portfolio?.experiences.length > 0 && (
           <div className={`transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}>
             <div className="backdrop-blur-sm bg-[var(--color-background)]/80 border border-[var(--color-border)] rounded-2xl shadow-2xl p-8 mb-6">
               <span className="flex gap-3">
@@ -292,25 +292,25 @@ const deleteArchivement = async (archivementId) => {
               <AddIcon className="text-green-300  hover:text-green-700 hover:border-green-700 p-1 border border-green-300 rounded-full transition-all duration-200 cursor-pointer mt-1"/>
               </span>
 
-              {portfolio.experiences.map((exp) => (
+              {portfolio?.experiences.map((exp) => (
                 <div key={exp.id} className="mb-6 last:mb-0">
                   <div className="flex justify-between items-start mb-2">
                     <div className="flex gap-1">
                     <div>
-                      <h3 className="text-xl font-semibold text-[var(--color-foreground)]">{exp.jobTitle}</h3>
-                      <p className="text-[var(--color-gray)] font-medium">{exp.company}</p>
+                      <h3 className="text-xl font-semibold text-[var(--color-foreground)]">{exp?.jobTitle}</h3>
+                      <p className="text-[var(--color-gray)] font-medium">{exp?.company}</p>
                     </div>
                     {/* <EditSquareIcon className="ml-2 text-blue-300 hover:text-blue-700 transition-all duration-200 cursor-pointer mt-1"/> */}
                     <DeleteOutlineIcon onClick={()=> deleteExperience(exp.id)} className="text-red-300 hover:text-red-700 transition-all duration-200 cursor-pointer mt-1"/>
                     </div>
 
                     <div className="text-right text-[var(--color-foreground)]/60 text-sm">
-                      {exp.startDate && <div>{FormatDate(exp.startDate)} - {exp.endDate ? FormatDate(exp.endDate) : 'Present'}</div>}
-                      {exp.location && <div>{exp.location}</div>}
+                      {exp?.startDate && <div>{FormatDate(exp.startDate)} - {exp?.endDate ? FormatDate(exp.endDate) : 'Present'}</div>}
+                      {exp?.location && <div>{exp?.location}</div>}
                     </div>
                   </div>
-                  {exp.description && (
-                    <p className="text-[var(--color-foreground)]/80 mt-2 leading-relaxed">{exp.description}</p>
+                  {exp?.description && (
+                    <p className="text-[var(--color-foreground)]/80 mt-2 leading-relaxed">{exp?.description}</p>
                   )}
                 </div>
               ))}
@@ -326,22 +326,22 @@ const deleteArchivement = async (archivementId) => {
               <AddIcon onClick={()=>setAddProject(true)} className="text-green-300  hover:text-green-700 hover:border-green-700 p-1 border border-green-300 rounded-full transition-all duration-200 cursor-pointer mt-1"/>
               </span>
               <div className="grid gap-6">
-                {portfolio.projects.map((project) => (
+                {portfolio?.projects.map((project) => (
                   <div key={project.id} className="p-6 rounded-xl bg-[var(--color-background)] border border-[var(--color-border)] hover:border-[var(--color-gray)]/50 transition-all">
                     <div className="flex items-start  gap-1">
-                    <h3 className="text-xl font-semibold text-[var(--color-foreground)] mb-2">{project.projectName}</h3>
+                    <h3 className="text-xl font-semibold text-[var(--color-foreground)] mb-2">{project?.projectName}</h3>
                       <span className="flex gap-1">
                       {/* <EditSquareIcon className="ml-2 text-blue-300 hover:text-blue-700 transition-all duration-200 cursor-pointer mt-1"/> */}
                     <DeleteOutlineIcon onClick={()=>{deleteProject(project.id)}} className="text-red-300 hover:text-red-700 transition-all duration-200 cursor-pointer mt-1"/>
                     </span>
                     </div>
-                    <p className="text-[var(--color-foreground)]/80 leading-relaxed mb-3">{project.description}</p>
-                    {project.technologies && (
+                    <p className="text-[var(--color-foreground)]/80 leading-relaxed mb-3">{project?.description}</p>
+                    {project?.technologies && (
                       <p className="text-sm text-[var(--color-foreground)]/60 mb-3">
                         <span className="font-medium">Technologies:</span> {project.technologies}
                       </p>
                     )}
-                    {project.link && (
+                    {project?.link && (
                       <a 
                         href={project.link} 
                         target="_blank" 
@@ -365,7 +365,7 @@ const deleteArchivement = async (archivementId) => {
               <h2 className="text-2xl font-bold text-[var(--color-foreground)] mb-6">Education</h2>
               <AddIcon onClick={()=>{setAddEducation(true)}} className="text-green-300  hover:text-green-700 hover:border-green-700 p-1 border border-green-300 rounded-full transition-all duration-200 cursor-pointer mt-1"/>
               </span>
-              {portfolio.educations.map((edu) => (
+              {portfolio?.educations.map((edu) => (
                 <div key={edu.id} className="mb-6 last:mb-0">
                   <div className="flex justify-between items-start mb-2">
                     <div className="">
@@ -401,7 +401,7 @@ const deleteArchivement = async (archivementId) => {
               </span>
 
               <div className="grid gap-4">
-                {portfolio.certifications.map((cert) => (
+                {portfolio?.certifications.map((cert) => (
                   <div key={cert.id} className="p-4 rounded-xl bg-[var(--color-background)] border border-[var(--color-border)]">
                    <span className="absolute right-14 gap-1">
                         {/* <EditSquareIcon className="ml-2 text-blue-300 hover:text-blue-700 transition-all duration-200 cursor-pointer mt-1"/> */}
@@ -429,7 +429,7 @@ const deleteArchivement = async (archivementId) => {
               </span>
 
               <div className="space-y-3">
-                {portfolio.achievements.map((achievement) => (
+                {portfolio?.achievements.map((achievement) => (
                   <div key={achievement.id} className="flex items-start gap-3">
                     <span className="text-[var(--color-gray)] mt-1">🏆</span>
                     <span className="absolute right-14 gap-1">

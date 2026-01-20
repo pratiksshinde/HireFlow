@@ -6,22 +6,32 @@ import { getPortfolio } from "../../../services/portfolioService";
 import { FormatDate } from "../../../utils/formatdates";
 import { useRouter } from "next/navigation";
 import Navbar from "../../../components/common/navbar";
+import { toast } from "sonner";
 
 export default function Portfolio() {
   const params = useParams();  
   const { username } = params;
   const [Data, setData] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [loggedInUserId, setLoggedInUserId] = useState(null);
 
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
-    setLoggedInUserId(userId);
     if (!username) return; 
     const fetchData = async () => {
-      const PortfolioData = await getPortfolio(username);
-      setData(PortfolioData);
-      console.log(PortfolioData);
+     try {
+       const PortfolioData = await getPortfolio(username);
+       if (PortfolioData?.success) {
+         setData(PortfolioData);
+        console.log(PortfolioData);
+        localStorage.setItem("userId", PortfolioData?.portfolio?.userId);
+       } else {
+        console.error("Error fetching portfolio data:", error);
+        toast.error("No User Found");
+       }
+     
+     } catch (error) {
+      console.error("Error fetching portfolio data:", error);
+      toast.error("No User Found");
+     }
     };
     fetchData();
   }, [username]);
@@ -33,13 +43,22 @@ export default function Portfolio() {
   if (!Data) {
     return (
       <div className="min-h-screen w-full flex justify-center items-center bg-[var(--color-background)]">
-        <div className="text-[var(--color-foreground)] text-xl">Loading...</div>
-      </div>
+    <div className="text-[var(--color-foreground)] text-center space-y-3">
+      <h1 className="text-2xl font-semibold">User not found</h1>
+
+      <p className="text-sm text-gray-400">
+        The user you’re trying to access doesn’t exist or has been removed.
+      </p>
+
+     
+    </div>
+  </div>
+
     );
   }
 
-  const portfolio = Data.portfolio;
-  const resume = portfolio.resume;
+  const portfolio = Data?.portfolio;
+  const resume = portfolio?.resume;
 
   return (
     <div className="min-h-screen w-full relative overflow-hidden bg-[var(--color-background)]">
@@ -81,24 +100,24 @@ export default function Portfolio() {
 
       {/* Content */}
       <div className="relative z-10 max-w-5xl mx-auto px-4 py-12">
-         <Navbar userId="5"/>
+         <Navbar />
         {/* Header Section */}
         <div className={`transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}>
           <div className="backdrop-blur-sm bg-[var(--color-background)]/80 border border-[var(--color-border)] rounded-2xl shadow-2xl p-8 mb-6">
-            <h1 className="text-4xl font-bold text-[var(--color-foreground)] mb-2">{resume.fullname}</h1>
+            <h1 className="text-4xl font-bold text-[var(--color-foreground)] mb-2">{resume?.fullname}</h1>
             <div className="flex flex-wrap gap-4 text-[var(--color-foreground)]/70 text-sm mb-4">
-              {resume.email && <span>📧 {resume.email}</span>}
-              {resume.phone && <span>📱 {resume.phone}</span>}
-              {resume.address && <span>📍 {resume.address}</span>}
+              {resume?.email && <span>📧 {resume.email}</span>}
+              {resume?.phone && <span>📱 {resume.phone}</span>}
+              {resume?.address && <span>📍 {resume.address}</span>}
             </div>
-            {resume.summary && (
-              <p className="text-[var(--color-foreground)]/80 leading-relaxed">{resume.summary}</p>
+            {resume?.summary && (
+              <p className="text-[var(--color-foreground)]/80 leading-relaxed">{resume?.summary}</p>
             )}
           </div>
         </div>
 
         {/* Skills Section */}
-        {portfolio.skills && portfolio.skills.length > 0 && (
+        {portfolio?.skills && portfolio?.skills.length > 0 && (
           <div className={`transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}>
             <div className="backdrop-blur-sm bg-[var(--color-background)]/80 border border-[var(--color-border)] rounded-2xl shadow-2xl p-8 mb-6">
               <h2 className="text-2xl font-bold text-[var(--color-foreground)] mb-6">Skills</h2>
@@ -128,12 +147,12 @@ export default function Portfolio() {
         )}
 
         {/* Experience Section */}
-        {portfolio.experiences && portfolio.experiences.length > 0 && (
+        {portfolio?.experiences && portfolio?.experiences.length > 0 && (
           <div className={`transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}>
             <div className="backdrop-blur-sm bg-[var(--color-background)]/80 border border-[var(--color-border)] rounded-2xl shadow-2xl p-8 mb-6">
               <h2 className="text-2xl font-bold text-[var(--color-foreground)] mb-6">Experience</h2>
               
-              {portfolio.experiences.map((exp) => (
+              {portfolio?.experiences.map((exp) => (
                 <div key={exp.id} className="mb-6 last:mb-0">
                   <div className="flex justify-between items-start mb-2">
                     <div>
@@ -155,13 +174,13 @@ export default function Portfolio() {
         )}
 
         {/* Projects Section */}
-        {portfolio.projects && portfolio.projects.length > 0 && (
+        {portfolio?.projects && portfolio?.projects.length > 0 && (
           <div className={`transition-all duration-700 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}>
             <div className="backdrop-blur-sm bg-[var(--color-background)]/80 border border-[var(--color-border)] rounded-2xl shadow-2xl p-8 mb-6">
               <h2 className="text-2xl font-bold text-[var(--color-foreground)] mb-6">Projects</h2>
               
               <div className="grid gap-6">
-                {portfolio.projects.map((project) => (
+                {portfolio?.projects.map((project) => (
                   <div key={project.id} className="p-6 rounded-xl bg-[var(--color-background)] border border-[var(--color-border)] hover:border-[var(--color-gray)]/50 transition-all">
                     <h3 className="text-xl font-semibold text-[var(--color-foreground)] mb-2">{project.projectName}</h3>
                     <p className="text-[var(--color-foreground)]/80 leading-relaxed mb-3">{project.description}</p>
@@ -188,12 +207,12 @@ export default function Portfolio() {
         )}
 
         {/* Education Section */}
-        {portfolio.educations && portfolio.educations.length > 0 && (
+        {portfolio?.educations && portfolio?.educations.length > 0 && (
           <div className={`transition-all duration-700 delay-400 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}>
             <div className="backdrop-blur-sm bg-[var(--color-background)]/80 border border-[var(--color-border)] rounded-2xl shadow-2xl p-8 mb-6">
               <h2 className="text-2xl font-bold text-[var(--color-foreground)] mb-6">Education</h2>
-              
-              {portfolio.educations.map((edu) => (
+
+              {portfolio?.educations.map((edu) => (
                 <div key={edu.id} className="mb-6 last:mb-0">
                   <div className="flex justify-between items-start mb-2">
                     <div>
@@ -215,13 +234,13 @@ export default function Portfolio() {
         )}
 
         {/* Certifications Section */}
-        {portfolio.certifications && portfolio.certifications.length > 0 && (
+        {portfolio?.certifications && portfolio?.certifications.length > 0 && (
           <div className={`transition-all duration-700 delay-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}>
             <div className="backdrop-blur-sm bg-[var(--color-background)]/80 border border-[var(--color-border)] rounded-2xl shadow-2xl p-8 mb-6">
               <h2 className="text-2xl font-bold text-[var(--color-foreground)] mb-6">Certifications</h2>
               
               <div className="grid gap-4">
-                {portfolio.certifications.map((cert) => (
+                {portfolio?.certifications.map((cert) => (
                   <div key={cert.id} className="p-4 rounded-xl bg-[var(--color-background)] border border-[var(--color-border)]">
                     <h3 className="text-lg font-semibold text-[var(--color-foreground)]">{cert.certificationName}</h3>
                     {cert.issuer && (
@@ -238,13 +257,13 @@ export default function Portfolio() {
         )}
 
         {/* Achievements Section */}
-        {portfolio.achievements && portfolio.achievements.length > 0 && (
+        {portfolio?.achievements && portfolio?.achievements.length > 0 && (
           <div className={`transition-all duration-700 delay-600 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}>
             <div className="backdrop-blur-sm bg-[var(--color-background)]/80 border border-[var(--color-border)] rounded-2xl shadow-2xl p-8">
               <h2 className="text-2xl font-bold text-[var(--color-foreground)] mb-6">Achievements</h2>
               
               <div className="space-y-3">
-                {portfolio.achievements.map((achievement) => (
+                {portfolio?.achievements.map((achievement) => (
                   <div key={achievement.id} className="flex items-start gap-3">
                     <span className="text-[var(--color-gray)] mt-1">🏆</span>
                     <p className="text-[var(--color-foreground)]/80">{achievement.description}</p>

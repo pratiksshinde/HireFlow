@@ -65,7 +65,7 @@ export default function Jobs() {
           }}
         />
       </div>
-           <Navbar userId="5" className="z-9999"/>
+           <Navbar className="z-9999"/>
       {/* Content */}
       <div className="relative z-10 max-w-5xl grid grid-cols-3 gap-4 mx-auto px-4 py-12">
         

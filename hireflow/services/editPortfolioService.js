@@ -72,9 +72,10 @@ export const addSkillset = async(skills, category, proficiency)=>{
 export const addSingleCertification = async (certificationName, issuingOrganization, issueDate)=>{
     try {
         const response = await axiosInstance.post('/resume/editResume/addCertification',{certificationName, issuingOrganization, issueDate});
-        return {success:true , message: response.data.message};
+        return {success:true , message: response?.data?.message};
     } catch (error) {
-        return {success:false, message: error.data.message};
+        console.log(error);
+        return {success:false, message: error?.data?.message};
     }
 }
 export const deleteSingleCertification = async (certificationId) => {

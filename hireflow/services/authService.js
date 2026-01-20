@@ -67,3 +67,16 @@ export const uploadResume = async (formData)=>{
     };
     }
 }   
+
+export const me = async ()=>{
+    try {
+        const response = await axiosInstance.get("/auth/me");
+        console.log("me response:", response);
+        return { success: true, user: response.data };
+    } catch (error) {
+        return {
+            success: false,
+            message: error.response?.data?.message || error.message,
+        };
+    }
+}

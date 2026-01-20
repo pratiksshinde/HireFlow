@@ -9,21 +9,37 @@ import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useRouter } from 'next/navigation';
 
-import { logout } from '../../services/authService';
+import { logout, me } from '../../services/authService';
 import { toast } from 'sonner';
 
-function Navbar({userId}) {
 
-    const [loggedInUserId, setLoggedInUserId] = useState()
+function Navbar() {
+
+    const [loggedInUserId, setLoggedInUserId] = useState();
+    const [userId , setUserId] = useState(localStorage.getItem("userId"));
     const [username , setUsername] = useState("");
     const router = useRouter();
-    
+    console.log("Navbar userId:", userId);
     useEffect(() => {
-        const userId = localStorage.getItem("userId");
-        setUsername(localStorage.getItem("username"));
-        setLoggedInUserId(userId);
+      const getUserId = async() => {
+       try {
+         const userId = await me();
+         console.log(userId);
+         if (userId?.success) {
+          setLoggedInUserId(userId?.user?.user);
+          localStorage.setItem("username", userId?.user?.username);
+          setUsername(userId?.user?.username);
+         } else {
+          setLoggedInUserId(null);
+         }
+          
+       } catch (error) {
+         console.log(error);
+       }
+      }
+      getUserId();
     }, [])
-    
+    console.log("Logged in user ID:", loggedInUserId);
    const logoutUser = ()=>{
     logout().then((response)=>{
       if(response.success){

@@ -75,7 +75,7 @@ export default function JobCard({ job }) {
                 onClick: async () => await createApplication(jobDetails.companyName , jobDetails.title , job.description ),
             },
             cancel: {
-                label: "No",
+                label: "No I Skipped",
             },
             });
         }, 3000);
@@ -132,7 +132,7 @@ export default function JobCard({ job }) {
                 onClick: async () => await createApplication( jobDetails.companyName , jobDetails.title , job.description ),
             },
             cancel: {
-                label: "No",
+                label: "No I Skipped",
             },
             });
         }, 3000);   
