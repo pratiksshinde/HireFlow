@@ -36,7 +36,7 @@ function NotFound() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button 
               onClick={() => window.history.back()}
-              className="px-6 py-3 bg-gradient-to-r from-gray-700 to-gray-800 text-white font-semibold rounded-lg shadow-lg hover:shadow-gray-800/50 transform hover:scale-105 transition-all duration-200"
+              className="pointer px-6 py-3 bg-gradient-to-r from-gray-700 to-gray-800 text-white font-semibold rounded-lg shadow-lg hover:shadow-gray-800/50 transform hover:scale-105 transition-all duration-200"
             >
               Go Back
             </button>

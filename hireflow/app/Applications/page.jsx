@@ -6,28 +6,40 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { deleteApplication, getAllApplications } from '../../services/jobService';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { all } from 'axios';  
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import Spinner from '../../components/ui/spinner';
 
 
 function Applications() {
   const router = useRouter();
-  const [allApplications, setAllApplications] = useState([]);
+  const [allApplications, setAllApplications] = useState();
+  const [loader, setLoader] = useState(false);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
   useEffect(() => {
     const fetchApplications = async () => {
     try {
-      const result = await getAllApplications();
+      setLoader(true);
+      console.log("Fetching applications for page:", page, "with limit:", limit);
+      const result = await getAllApplications(page,limit);
       
       if (result.success) {
-        setAllApplications(result.response);
+        setAllApplications(result.response.data);
+        setLoader(false);
       }
  
 
     } catch (error) {
       console.error("Error fetching applications:", error);
+      toast.error("Error fetching applications");
+      setLoader(false);
     }
   };
   
   fetchApplications();
-  }, [])
+  }, [page]);
 
   const handleDeleteApplication = async (applicationId) => {
     try {
@@ -46,9 +58,13 @@ function Applications() {
       toast.error("Error deleting application:", error);
     }
   };
-  
+  console.log("All Applications State:", allApplications);
   return (
      <div className="min-h-screen w-full relative overflow-hidden bg-[var(--color-background)]">
+
+        {loader && !allApplications?.data?.count > 0  ? (  <div className="absolute inset-0 transparent rounded-xl flex items-center justify-center z-100">
+                    <Spinner className="h-14 w-14 text-gray-100 " />
+                </div> ) : ""}
       
       {/* Mesh Gradient Background */}
       <div className="absolute inset-0 overflow-hidden">
@@ -87,16 +103,17 @@ function Applications() {
 
       {/* Content */}
       <div className="relative z-10 max-w-5xl mx-auto px-4 py-12">
-         <Navbar  userId="5"/>
+         <Navbar/>
 
           <div className="transition-all duration-700  opacity-100 translate-y-0">
             <div className="backdrop-blur-sm bg-[var(--color-background)]/80 border border-[var(--color-border)] rounded-2xl shadow-2xl p-8 mb-6">
               <h1 className="text-3xl font-bold mb-2 text-[var(--color-foreground)]">Applications</h1>
               <p className="text-[var(--color-gray)]">Track and manage your job applications in one place.</p>
               <div className="mt-4">
-                {allApplications?.length > 0 ? (
+                {allApplications?.data?.count > 0 ? (
+                  console.log("All Applications:", allApplications),
                   <div className="grid grid-cols-1 gap-4">
-                    {allApplications.map((application) => {
+                    {allApplications?.data?.rows.map((application) => {
                       return(
                         <div key={application.id} className="p-4 group border border-[var(--color-border)] rounded-2xl bg-[var(--color-background)]/70 backdrop-blur-sm">
                           <span className='flex justify-between'>
@@ -118,6 +135,15 @@ function Applications() {
                         </div>
                       )
                     })}
+                    <div className="relative z-10 w-full flex gap-5 justify-center items-center">
+                      <button onClick={()=>{if (page > 1) {setPage(page - 1);}}} className={`p-4 m-4 rounded-full border border-gray-700 pointer ${page > 1 ? "cursor-pointer" : "opacity-50 cursor-not-allowed "}`}><ArrowBackIosIcon /></button>
+                      {loader ? (
+                          <Spinner className="h-8 w-8 text-gray-100 " />
+                      ) : (
+                        <span className="text-gray-300 text-lg">Page {page}</span>
+                      )}
+                      <button onClick={()=>{if (page * limit < allApplications.pagination.total) {setPage(page + 1);}}} className={`p-4 m-4 rounded-full border border-gray-700 pointer ${page * limit < allApplications.pagination.total ? "cursor-pointer" : "opacity-50 cursor-not-allowed "}`}><ArrowForwardIosIcon /></button>
+                      </div>
                   </div>
                 ) : ( 
                 <div   onClick={() => router.push("/jobs")} className="pointer w-full h-64 border-2 border-dashed border-[var(--color-border)] rounded-2xl flex flex-col items-center justify-center text-[var(--color-gray)]">

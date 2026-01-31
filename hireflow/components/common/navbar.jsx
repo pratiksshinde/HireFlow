@@ -16,11 +16,13 @@ import { toast } from 'sonner';
 function Navbar() {
 
     const [loggedInUserId, setLoggedInUserId] = useState();
-    const [userId , setUserId] = useState(localStorage.getItem("userId"));
+    const [userId , setUserId] = useState(null);
     const [username , setUsername] = useState("");
     const router = useRouter();
     console.log("Navbar userId:", userId);
     useEffect(() => {
+       const storedUserId = localStorage.getItem("userId");
+       setUserId(storedUserId);
       const getUserId = async() => {
        try {
          const userId = await me();

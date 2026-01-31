@@ -26,6 +26,7 @@ export const getJobMail = async (jobDetails) => {
     console.error('Error getting job mail:', error);
     return {
       success: false,
+      status: error.response?.status,
       error: error.message
     };
   }
@@ -49,13 +50,13 @@ export const createApplication = async (companyName , jobRole , jobDescription )
   }
 }
 
-export const getAllApplications = async () =>{
+export const getAllApplications = async (page,limit) =>{
   try {
-    const response = await axiosInstance.get("/jobs/getApplications")
+    const response = await axiosInstance.get(`/jobs/getApplications/${page}/${limit}`);
     console.log("Applications response:", response);
     return {
       success: true,
-      response:response.data.applications
+      response:response
     }
   } catch (error) {
     console.error('Error getting job mail:', error);

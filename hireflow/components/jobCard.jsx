@@ -25,15 +25,22 @@ export default function JobCard({ job }) {
 
             // Check if the request was successful
             if (!result.success) {
-                alert(result.message || "Failed to generate email");
-                return;
+                if(result.status === 403) {
+                    toast.error("You have reached your email generation limit. Please upgrade your plan to continue.");
+                    return;
+                }
+                else{
+                    toast.error(result.message || "Failed to generate email");
+                    return;
+                }
+               
             }
 
             // Access the data correctly based on your backend response
             const responseData = result.response?.data?.data || result.data;
             
             if (!responseData) {
-                alert("No response data received");
+                toast.error("No response data received");
                 return;
             }
 
@@ -41,13 +48,13 @@ export default function JobCard({ job }) {
 
             // Check if validEmails exists and has items
             if (!validEmails || !Array.isArray(validEmails) || validEmails.length === 0) {
-                alert("No valid email found for this company");
+                toast.error("No valid email found for this company");
                 return;
             }
 
             // Check if email body was generated
             if (!genrateMail) {
-                alert("Failed to generate email body");
+                toast.error("Failed to generate email body");
                 return;
             }
 
@@ -83,7 +90,7 @@ export default function JobCard({ job }) {
         } catch (error) {
             setIsLoading(false);
             console.error("Error in ApplyViaEmail:", error);
-            alert("An error occurred while generating the email. Please try again.");
+            toast.error("An error occurred while generating the email. Please try again.");
         }
     };
 
