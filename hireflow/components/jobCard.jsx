@@ -4,8 +4,10 @@ import { useState } from "react";
 import { createApplication, getJobMail } from "../services/jobService";
 import Spinner from "./ui/spinner";
 import { toast } from "sonner"
+import { useRouter } from "next/navigation";
 
 export default function JobCard({ job }) {
+    const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
 
     const jobDetails = {
@@ -27,6 +29,7 @@ export default function JobCard({ job }) {
             if (!result.success) {
                 if(result.status === 403) {
                     toast.error("You have reached your email generation limit. Please upgrade your plan to continue.");
+                    router.push("/Subscription");
                     return;
                 }
                 else{
@@ -147,15 +150,23 @@ export default function JobCard({ job }) {
         >
           Apply Now
         </a>
-      <a
-          className="inline-block cursor-pointer px-4 py-2 text-sm font-medium text-white bg-black rounded-lg hover:bg-gray-800"
-          onClick={ () => {
-            ApplyViaEmail();
-        }}
+     <a
+        className="
+            inline-block cursor-pointer px-4 py-2 text-sm font-medium
+            text-[#2b1b00]
+            bg-[linear-gradient(135deg,#3a2a00_0%,#8d6b1f_15%,#f5d27a_35%,#fff1b8_50%,#f5d27a_65%,#8d6b1f_85%,#3a2a00_100%)]
+            border border-[#a67c00]
+            rounded-lg
+            shadow-[inset_0_1px_2px_rgba(255,255,255,0.45),inset_0_-2px_3px_rgba(0,0,0,0.35),0_6px_14px_rgba(0,0,0,0.35)]
+            transition-all duration-300
+            hover:brightness-110
+            active:brightness-95
+        "
+        onClick={ApplyViaEmail}
         >
         Apply via Email
-      
         </a>
+
       </div>
      
     </div>
