@@ -5,6 +5,7 @@ import Link from "next/link";
 import axiosInstance from '../../lib/axiosInstance';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import Navbar from '../../components/common/navbar';
 
 const plans = [
   { name: "Student", price: "₹99 / mo" ,cost:99},
@@ -76,7 +77,7 @@ function Subscription() {
                 email: "test@gmail.com",
             },
             theme: {
-                color: "#F37254"
+                color: "#8d6b1f"
             }
         };
 
@@ -90,7 +91,7 @@ function Subscription() {
 
   return (
     <div className="min-h-screen w-full flex justify-center items-center relative overflow-hidden bg-[var(--color-background)]">
-      
+        
       {/* Background Orbs & Mesh */}
       <div className="absolute inset-0 overflow-hidden">
         {["-top-20 -left-20","-top-20 -right-20","-bottom-20 left-1/2 -translate-x-1/2"].map(pos => (
@@ -111,7 +112,7 @@ function Subscription() {
           }}
         />
       </div>
-
+        <Navbar/>
       {/* Subscription Card */}
       <div className={`relative z-10 w-full max-w-md mx-4 transition-all duration-700
         ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}
