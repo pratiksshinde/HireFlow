@@ -43,7 +43,7 @@ export default function JobCard({ job }) {
             const responseData = result.response?.data?.data || result.data;
             
             if (!responseData) {
-                toast.error("No response data received");
+                toast.error("Failed to find Company email!!!");
                 return;
             }
 

@@ -158,7 +158,7 @@ function Subscription() {
                         {plan.name}
                       </span>
                       {isSelected && (
-                        <p className="text-sm text-[var(--color-foreground)] mt-1">{plan.price}</p>
+                        <p className="text-sm text-white mt-1">{plan.price}</p>
                       )}
                     </button>
                   );

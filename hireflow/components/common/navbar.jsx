@@ -76,7 +76,21 @@ function Navbar() {
   return (
     <div>
         {loggedInUserId == userId ? (
-          <div className="fixed top-7 right-8 flex flex-col gap-3 transition-all duration-500">
+          <div
+          className="
+            fixed z-9999
+            bottom-4 left-1/2 -translate-x-1/2
+            flex flex-row gap-3 px-4 py-2
+            bg-[var(--color-background)]/80 backdrop-blur-md
+            border border-[var(--color-border)]
+            rounded-2xl shadow-xl
+
+            lg:top-7 lg:right-8 lg:left-auto lg:bottom-auto lg:translate-x-0
+            lg:flex-col lg:p-0 lg:bg-transparent lg:border-none lg:shadow-none
+            transition-all duration-500
+          "
+        >
+
             <NavItem 
               icon={HomeIcon} 
               label="Portfolio" 

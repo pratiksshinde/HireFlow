@@ -9,7 +9,6 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 export default function Jobs() {
-      const [isVisible, setIsVisible] = useState(false);
       const [data, setData] = useState([]);
       const [loader, setLoader] = useState(false);
       const [page, setPage] = useState(1);
