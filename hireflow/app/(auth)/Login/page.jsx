@@ -21,11 +21,8 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Login attempt:', { email, password });
     const response = await login(email, password);
     if (response.success) {
-      console.log('Login successful:', response);
-      await delayUntilRuntimeStage(2000);
       if(response.user.data.isResume){
         router.push('/Portfolio/'+response.user.data.userName);
       } else {
@@ -153,7 +150,7 @@ function Login() {
               </div>
 
               <button onClick={handleSubmit}
-              className={`w-full py-3 rounded-xl transition-all bg-gray duration-600 delay-600
+              className={`w-full py-3 rounded-xl transition-all bg-gray text-white hover:bg-gray-700 hover delay-50 cursor-pointer font-semibold transition-all duration-500 delay-100
                 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}
               `}>
                 Sign In
