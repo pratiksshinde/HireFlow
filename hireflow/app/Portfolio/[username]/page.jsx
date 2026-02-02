@@ -7,28 +7,34 @@ import { FormatDate } from "../../../utils/formatdates";
 import { useRouter } from "next/navigation";
 import Navbar from "../../../components/common/navbar";
 import { toast } from "sonner";
+import Spinner from "../../../components/ui/spinner";
 
 export default function Portfolio() {
   const params = useParams();  
   const { username } = params;
   const [Data, setData] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!username) return; 
     const fetchData = async () => {
+      setIsLoading(true);
      try {
        const PortfolioData = await getPortfolio(username);
        if (PortfolioData?.success) {
          setData(PortfolioData);
+         setIsLoading(false);
         console.log(PortfolioData);
         localStorage.setItem("userId", PortfolioData?.portfolio?.userId);
        } else {
+        setIsLoading(false);
         console.error("Error fetching portfolio data:", error);
         toast.error("No User Found");
        }
      
      } catch (error) {
+      setIsLoading(false);
       console.error("Error fetching portfolio data:", error);
       toast.error("No User Found");
      }
@@ -40,7 +46,7 @@ export default function Portfolio() {
     setTimeout(() => setIsVisible(true), 100);
   }, []);
 
-  if (!Data) {
+  if (!Data && !isLoading) {
     return (
       <div className="min-h-screen w-full flex justify-center items-center bg-[var(--color-background)]">
     <div className="text-[var(--color-foreground)] text-center space-y-3">
@@ -100,7 +106,11 @@ export default function Portfolio() {
 
       {/* Content */}
       <div className="relative z-10 max-w-5xl mx-auto px-4 py-12">
-         <Navbar />
+       
+         <Navbar className="z-999"/>
+          {isLoading ? (<div className="absolute inset-0 transparent h-[100vh] rounded-xl flex items-center justify-center z-100">
+                    <Spinner className="h-14 w-14 text-gray-700 " />
+                </div> ) : ""} 
         {/* Header Section */}
         <div className={`transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}>
           <div className="backdrop-blur-sm bg-[var(--color-background)]/80 border border-[var(--color-border)] rounded-2xl shadow-2xl p-8 mb-6">

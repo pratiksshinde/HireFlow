@@ -151,7 +151,7 @@ function AddEducation({onClose}) {
              <div className="flex w-90 border-b border-white/20 rounded-lg">
                 <button
                 type="submit"
-                className="bg-green/10 backdrop-blur-sm w-full hover:bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="bg-green/10 backdrop-blur-sm border-green-800 border hover:bg-green-800 text-green-800 hover:text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 >
                   Submit
                 </button>
