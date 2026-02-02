@@ -6,12 +6,15 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Link from "next/link";
 import { getProfile, login } from '../../../services/authService';
 import { useRouter } from 'next/navigation';
+import Spinner from '../../../components/ui/spinner';
+import { toast } from 'sonner';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [visibility, setVisibility] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -21,22 +24,27 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const response = await login(email, password);
     if (response.success) {
+      setIsLoading(false);
       if(response.user.data.isResume){
         router.push('/Portfolio/'+response.user.data.userName);
       } else {
         router.push('/upload');
       }
     } else {
-      console.error('Login failed:', response.message);
+      toast.error(response.message);
+      setIsLoading(false);
       // Optionally, show error message to user
     }
   };
 
   return (
     <div className="min-h-screen w-full flex justify-center items-center relative overflow-hidden bg-[var(--color-background)]">
-      
+      {isLoading  ? (  <div className="absolute inset-0 transparent rounded-xl flex items-center justify-center z-100">
+                    <Spinner className="h-14 w-14 text-gray-700 " />
+                </div> ) : ""}
       {/* Mesh Gradient Background */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Gradient Orb 1 - Top Left */}

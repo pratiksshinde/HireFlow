@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { register } from '../../../services/authService';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import Spinner from '../../../components/ui/spinner';
 
 function Signup() {
   const [username, setUsername] = useState('');
@@ -17,6 +18,7 @@ function Signup() {
   const [confirmVisibility, setConfirmVisibility] = useState(false);
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
@@ -36,19 +38,24 @@ function Signup() {
       return;
     }
     // Call registration service here
+    setIsLoading(true);
     const response = await register(username, email, password);
     if (response.success) {
-      console.log('Registration successful:', response.message);
+      setIsLoading(false);
+      toast.success('Registration successful! Please log in.');
       router.push('/Login');
     } else {
-      console.error('Registration failed:', response.message);
+      setIsLoading(false);
+      toast.error(response.message);
       // Optionally, show error message to user
     }
   };
 
   return (
     <div className="min-h-screen w-full flex justify-center items-center relative overflow-hidden bg-[var(--color-background)]">
-      
+        {isLoading  ? (  <div className="absolute inset-0 transparent rounded-xl flex items-center justify-center z-100">
+                    <Spinner className="h-14 w-14 text-gray-700 " />
+                </div> ) : ""}
       {/* Mesh Gradient Background */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Gradient Orb 1 - Top Left */}
