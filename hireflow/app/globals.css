@@ -15,7 +15,7 @@
 }
 
 /* DARK MODE OVERRIDES */
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --bg-primary: #000000;
     --primary: #7FCFFF;
@@ -27,7 +27,7 @@
     --background: var(--bg-primary);
     --foreground: var(--secondary);
   }
-}
+} */
 
 /* TAILWIND THEME VARIABLES */
 @theme inline {
