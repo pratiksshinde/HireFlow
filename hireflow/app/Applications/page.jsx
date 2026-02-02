@@ -116,9 +116,9 @@ function Applications() {
                     {allApplications?.data?.rows.map((application) => {
                       return(
                         <div key={application.id} className="p-4 group border border-[var(--color-border)] rounded-2xl bg-[var(--color-background)]/70 backdrop-blur-sm">
-                          <span className='flex justify-between'>
+                          <span className='flex justify-between md:text-lg lg:text-xl font-semibold text-[var(--color-foreground)]'>
                             <h2 className="text-xl font-semibold text-[var(--color-foreground)]">{application.jobRole}</h2>
-                            <p className=" text-[var(--color-gray)]">Applied on: {new Date(application.createdAt).toLocaleDateString()}</p>
+                            <p className=" text-[var(--color-gray)] text-end text-sm md:text-md ">Applied on: {new Date(application.createdAt).toLocaleDateString()}</p>
                             </span>
 
                           <p className="text-[var(--color-gray)]">Company: {application.companyName}</p>

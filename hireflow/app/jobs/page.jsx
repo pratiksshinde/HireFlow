@@ -69,7 +69,7 @@ export default function Jobs() {
       </div>
            <Navbar className="z-9999"/>
       {/* Content */}
-      <div className="relative z-10 max-w-5xl grid grid-cols-3 gap-4 mx-auto px-4 py-12">
+      <div className="relative z-10 max-w-5xl grid lg:grid-cols-3 md:grid-cols-1 gap-4 mx-auto px-4 py-12">
         
          {data.map((job)=>(
             <JobCard key={job.id} job={job}/>
