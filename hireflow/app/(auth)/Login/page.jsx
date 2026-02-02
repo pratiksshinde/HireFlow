@@ -24,7 +24,7 @@ function Login() {
     console.log('Login attempt:', { email, password });
     const response = await login(email, password);
     if (response.success) {
-      // console.log('Login successful:', response);
+      console.log('Login successful:', response);
       if(response.user.data.isResume){
         router.push('/Portfolio/'+response.user.data.userName);
       } else {
