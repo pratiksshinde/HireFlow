@@ -42,7 +42,7 @@ function Subscription() {
             toast("Razorpay SDK failed to load. Are you online?");
             return;
         }
-        const amount = selectedPlan.cost;
+        // const amount = selectedPlan.cost;
         const orderRes = await axiosInstance.post("/auth/payment" , {plan:selectedPlan.name , currency:"INR"});
 
         const {order} = orderRes.data;
