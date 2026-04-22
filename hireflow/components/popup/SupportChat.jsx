@@ -73,13 +73,13 @@ function SupportChat() {
         <>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className='p-5 m-5 absolute bottom-10 right-10'
+                className='p-5 m-5 absolute bottom-10 right-10 sm:top-10 sm:right-10'
             >
                 <SupportAgentIcon height={24} width={24} />
             </button>
 
             {isOpen && (
-                <div className='absolute z-99999 md:bottom-20 md:right-10 sm:top-10 sm:right-10 w-[300px] h-[400px] bg-white rounded-lg shadow-lg p-5 sm:w-full sm:height-[100vh]'>
+                <div className='absolute z-99999 md:bottom-20 right-10 w-[300px] h-[400px] bg-white rounded-lg shadow-lg p-5 sm:h-[100vh] sm:w-full'>
                     <span className='flex w-full items-center'>
                         <h2 className='text-lg font-bold mb-4'>
                             Support Chat <SupportAgentIcon />
