@@ -79,7 +79,7 @@ function SupportChat() {
             </button>
 
             {isOpen && (
-                <div className='absolute bottom-20 right-10 w-[300px] h-[400px] bg-white rounded-lg shadow-lg p-5'>
+                <div className='absolute z-99999 bottom-20 right-10 w-[300px] h-[400px] bg-white rounded-lg shadow-lg p-5'>
                     <span className='flex w-full items-center'>
                         <h2 className='text-lg font-bold mb-4'>
                             Support Chat <SupportAgentIcon />
