@@ -7,7 +7,7 @@ import { io } from "socket.io-client"; // 👈 import socket.io client
 
 // ─── Connect to your backend ────────────────────────────────
 // This creates a connection to your server the moment this file loads
-const socket = io("http://localhost:4000");
+const socket = io("https://hireflow-backend-dizt.onrender.com");
 // ────────────────────────────────────────────────────────────
 
 function SupportChat() {
