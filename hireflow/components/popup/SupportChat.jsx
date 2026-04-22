@@ -73,7 +73,7 @@ function SupportChat() {
         <>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="fixed right-5 bottom-10 sm:bottom-10 top-5 sm:top-auto"
+                className="fixed right-5 bottom-10 sm:bottom-10 top-5 sm:top-10"
             >
                 <SupportAgentIcon height={24} width={24} />
             </button>
