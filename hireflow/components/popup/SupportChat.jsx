@@ -73,25 +73,39 @@ function SupportChat() {
         <>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className='p-5 m-5 absolute bottom-10 right-10 sm:top-10 sm:right-10'
+                className="fixed right-5 bottom-10 sm:bottom-10 top-5 sm:top-auto"
             >
                 <SupportAgentIcon height={24} width={24} />
             </button>
 
             {isOpen && (
-                <div className='absolute z-99999 md:bottom-20 right-10 w-[300px] h-[400px] bg-white rounded-lg shadow-lg p-5 sm:h-[100vh] sm:w-full'>
-                    <span className='flex w-full items-center'>
-                        <h2 className='text-lg font-bold mb-4'>
+                <div className="
+                    fixed 
+                    z-50
+                    bottom-0 right-0
+                    w-full h-full
+
+                    sm:bottom-20 sm:right-10 
+                    sm:w-[300px] sm:h-[400px]
+                bg-white rounded-none sm:rounded-lg shadow-lg p-5">
+                <span className='flex w-full items-center border-b pb-2 mb-2'>
+                        <h2 className='text-lg font-bold flex items-center gap-1'>
                             Support Chat <SupportAgentIcon />
                         </h2>
-                        {/* Real agent online status from server */}
-                        <span className={`ml-2 text-xs mb-4 ${agentOnline ? 'text-green-500' : 'text-red-400'}`}>
-                            {agentOnline ? '● Agent Online' : '● Agent Offline'}
-                        </span>
-                        <h2 className='ml-auto cursor-pointer mb-4' onClick={() => setIsOpen(false)}>X</h2>
+
+                    <span className={`ml-2 text-xs ${agentOnline ? 'text-green-500' : 'text-red-400'}`}>
+                        {agentOnline ? '● Online' : '● Offline'}
                     </span>
 
-                    <div className='flex flex-col h-full'>
+                    <button 
+                        className='ml-auto text-xl font-bold px-2'
+                        onClick={() => setIsOpen(false)}
+                    >
+                        ✕
+                    </button>
+                </span>
+
+                    <div className='flex flex-col h-[calc(100%-60px)]'>
                         <div className='flex-1 overflow-y-auto mb-4'>
                             {messages.length === 0 && (
                                 <p className='text-gray-400 text-sm text-center mt-10'>
@@ -113,7 +127,7 @@ function SupportChat() {
                             <div ref={messagesEndRef} />
                         </div>
 
-                        <span className='text-sm text-gray-500 mb-10 w-full flex gap-1 items-center'>
+                        <span className='text-sm text-gray-500 w-full flex gap-1 items-center'>
                             <input
                                 type="text"
                                 placeholder='Type your message...'
