@@ -1,16 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import SupportChat from "@/components/popup/SupportChat";
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
 
 export const metadata: Metadata = {
   title: "HireFlow",
-  description: "",
+  description: "Build your profile, discover roles, and manage every application in one place.",
 };
 
 export default function RootLayout({
@@ -20,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} antialiased`}>
+      <body className="antialiased">
         {children}
         <SupportChat />
         <Toaster richColors position="top-center" />

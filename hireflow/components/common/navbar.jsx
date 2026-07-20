@@ -1,129 +1,105 @@
 "use client";
 
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
+import AppsIcon from "@mui/icons-material/Apps";
+import EditSquareIcon from "@mui/icons-material/EditSquare";
+import FileOpenIcon from "@mui/icons-material/FileOpen";
+import HomeIcon from "@mui/icons-material/Home";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { usePathname, useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { logout, me } from "../../services/authService";
 
-import EditSquareIcon from '@mui/icons-material/EditSquare';
-import FileOpenIcon from '@mui/icons-material/FileOpen';
-import AppsIcon from '@mui/icons-material/Apps';
-import HomeIcon from '@mui/icons-material/Home';
-import LogoutIcon from '@mui/icons-material/Logout';
-import { useRouter } from 'next/navigation';
+const navItems = [
+  { icon: HomeIcon, label: "Portfolio", path: "portfolio" },
+  { icon: AppsIcon, label: "Jobs", path: "/jobs" },
+  { icon: FileOpenIcon, label: "Track", path: "/Applications" },
+  { icon: EditSquareIcon, label: "Edit", path: "/profile/edit" },
+];
 
-import { logout, me } from '../../services/authService';
-import { toast } from 'sonner';
+export default function Navbar() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [username, setUsername] = useState("");
+  const router = useRouter();
+  const pathname = usePathname();
 
+  useEffect(() => {
+    let mounted = true;
 
-function Navbar() {
+    const loadUser = async () => {
+      try {
+        const response = await me();
+        if (!mounted) return;
 
-    const [loggedInUserId, setLoggedInUserId] = useState();
-    const [userId , setUserId] = useState(null);
-    const [username , setUsername] = useState("");
-    const router = useRouter();
-    console.log("Navbar userId:", userId);
-    useEffect(() => {
-       const storedUserId = localStorage.getItem("userId");
-       setUserId(storedUserId);
-      const getUserId = async() => {
-       try {
-         const userId = await me();
-         console.log(userId);
-         if (userId?.success) {
-          setLoggedInUserId(userId?.user?.user);
-          localStorage.setItem("username", userId?.user?.username);
-          setUsername(userId?.user?.username);
-         } else {
-          setLoggedInUserId(null);
-         }
-          
-       } catch (error) {
-         console.log(error);
-       }
+        if (response?.success) {
+          const nextUsername = response?.user?.username || localStorage.getItem("username") || "";
+          setUsername(nextUsername);
+          setIsAuthenticated(true);
+          if (nextUsername) localStorage.setItem("username", nextUsername);
+        }
+      } catch {
+        if (mounted) setIsAuthenticated(false);
       }
-      getUserId();
-    }, [])
-    console.log("Logged in user ID:", loggedInUserId);
-   const logoutUser = ()=>{
-    logout().then((response)=>{
-      if(response.success){
-        toast.success("Logged out successfully");
-        router.push('/');
-      }
-    })  
-   }
+    };
 
-   const NavItem = ({ icon: Icon, label, onClick }) => (
-    <div
-      onClick={onClick}
-      className="group cursor-pointer z-50 w-16 flex flex-col justify-center items-center
-                border border-[var(--color-border)] rounded-2xl p-4
-                bg-[var(--color-background)]/80 backdrop-blur-sm shadow-lg
-                hover:shadow-2xl hover:border-[var(--color-gray)]/50
-                hover:scale-105 hover:translate-x-2
-                transition-all duration-300 ease-out"
-    >
-      <Icon className="text-[var(--color-foreground)] transition-all duration-300 
-                      group-hover:text-[var(--color-gray)] group-hover:scale-110" />
-      
-      <p className="text-xs text-[var(--color-gray)] mt-1 
-                   opacity-0 translate-y-[-4px] max-h-0 overflow-hidden 
-                   group-hover:opacity-100 group-hover:translate-y-0 group-hover:max-h-6 
-                   transition-all duration-300 ease-out">
-        {label}
-      </p>
-    </div>
-   );
+    loadUser();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const logoutUser = async () => {
+    const response = await logout();
+    if (response.success) {
+      localStorage.removeItem("userId");
+      localStorage.removeItem("username");
+      toast.success("Logged out successfully");
+      router.push("/");
+    }
+  };
+
+  if (!isAuthenticated) return null;
 
   return (
-    <div>
-        {loggedInUserId == userId ? (
-          <div
-          className="
-            fixed z-9999
-            bottom-4 left-1/2 -translate-x-1/2
-            flex flex-row gap-3 px-4 py-2
-            bg-[var(--color-background)]/80 backdrop-blur-md
-            border border-[var(--color-border)]
-            rounded-2xl shadow-xl
+    <nav
+      aria-label="Primary navigation"
+      className="fixed bottom-4 left-1/2 z-[80] flex -translate-x-1/2 items-center gap-1 rounded-2xl border border-white/70 bg-white/90 p-1.5 shadow-[0_18px_50px_-18px_rgba(15,23,42,0.45)] backdrop-blur-xl lg:bottom-auto lg:left-auto lg:right-6 lg:top-1/2 lg:-translate-y-1/2 lg:translate-x-0 lg:flex-col"
+    >
+      {navItems.map(({ icon: Icon, label, path }) => {
+        const target = path === "portfolio" ? `/Portfolio/${username}` : path;
+        const isActive = path === "portfolio" ? pathname.startsWith("/Portfolio") : pathname === path;
 
-            lg:top-7 lg:right-8 lg:left-auto lg:bottom-auto lg:translate-x-0
-            lg:flex-col lg:p-0 lg:bg-transparent lg:border-none lg:shadow-none
-            transition-all duration-500
-          "
-        >
+        return (
+          <button
+            key={label}
+            type="button"
+            title={label}
+            aria-label={label}
+            aria-current={isActive ? "page" : undefined}
+            onClick={() => router.push(target)}
+            className={`group flex h-14 min-w-14 flex-col items-center justify-center rounded-xl px-2 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 lg:h-12 lg:w-12 lg:min-w-0 lg:px-0 ${
+              isActive
+                ? "bg-slate-950 text-white shadow-md"
+                : "text-slate-500 hover:bg-slate-100 hover:text-slate-950"
+            }`}
+          >
+            <Icon sx={{ fontSize: 20 }} />
+            <span className="mt-1 text-[10px] font-medium leading-none lg:hidden">{label}</span>
+          </button>
+        );
+      })}
 
-            <NavItem 
-              icon={HomeIcon} 
-              label="Portfolio" 
-              onClick={() => router.push(`/Portfolio/${username}`)} 
-            />
-            
-            <NavItem 
-              icon={AppsIcon} 
-              label="Jobs" 
-              onClick={() => router.push('/jobs')} 
-            />
-            
-            <NavItem 
-              icon={FileOpenIcon} 
-              label="Track" 
-              onClick={() => router.push('/Applications')} 
-            />
-            
-            <NavItem 
-              icon={EditSquareIcon} 
-              label="Edit" 
-              onClick={() => router.push('/profile/edit')} 
-            />
-            
-            <NavItem 
-              icon={LogoutIcon} 
-              label="Logout" 
-              onClick={logoutUser} 
-            />
-          </div>
-        ) : null}
-    </div>
-  )
+      <div className="mx-0.5 h-7 w-px bg-slate-200 lg:my-0.5 lg:h-px lg:w-7" />
+      <button
+        type="button"
+        title="Logout"
+        aria-label="Logout"
+        onClick={logoutUser}
+        className="flex h-14 min-w-14 flex-col items-center justify-center rounded-xl px-2 text-slate-500 transition hover:bg-red-50 hover:text-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400 lg:h-12 lg:w-12 lg:min-w-0 lg:px-0"
+      >
+        <LogoutIcon sx={{ fontSize: 20 }} />
+        <span className="mt-1 text-[10px] font-medium leading-none lg:hidden">Logout</span>
+      </button>
+    </nav>
+  );
 }
-
-export default Navbar
